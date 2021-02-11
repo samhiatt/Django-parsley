@@ -68,7 +68,8 @@ def update_widget_attrs(field, prefix='data'):
     for attr, data_attr, in FIELD_ATTRS:
         if getattr(field, attr, None):
             attrs["{prefix}-{0}".format(data_attr, prefix=prefix)] = getattr(field, attr)
-
+            # Remove original attribute (prevents double validation error message)
+            del attrs[data_attr]
             error_message = field.error_messages.get(attr, None)
             if error_message:
                 attrs["{prefix}-{0}-message".format(data_attr, prefix=prefix)] = error_message
